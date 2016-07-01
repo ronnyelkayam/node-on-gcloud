@@ -7,5 +7,5 @@
 
 // Gets a list of Things
 export function index(req, res) {
-  res.json([]);
+  res.json([{name: 'one thing', info: 'one thing info...'}]);
 }
