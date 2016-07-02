@@ -8,20 +8,42 @@
 // Gets a list of Things
 export function index(req, res) {
   console.log('GOT ds ', req.ds);
-  readLoveFromDs(req.ds, 'test_site_id', function (err, data) {
-    var count = 0;
-    console.log('got res count from datastore', err, data)
-    if(typeof data !== 'undefined') {
-      console.log('got count from datastore', err, data);
-      count = data + 1;
-    }
+  incrementLoveInDs(req.ds, 'test_site_id', function(err, count) {
+    //callbackRead
+    console.log('read completed', err, count);
     res.json({loveCount: count, list: [{name: 'one thing', info: 'one thing info...'}]});
-    updateLoveInDs(req.ds, 'test_site_id', count, function (err, data) {
-      console.log('got response from datastore', err, data);
-    })
+  }, function (err, count) {
+    console.log('transaction completed', err, count);
   });
 }
 
+function incrementLoveInDs(ds, metasiteId, callbackRead, callback) {
+  var error;
+  var count = 0;
+
+  ds.runInTransaction(function(transaction, done) {
+    readLoveFromDs(ds, metasiteId, function (err, data) {
+      console.log('got res count from datastore', err, data);
+      if(typeof data !== 'undefined') {
+        console.log('got count from datastore', err, data);
+        count = data + 1;
+      }
+      callbackRead(err, count);
+      updateLoveInDs(ds, metasiteId, count, function (err, data) {
+        console.log('got response from datastore', err, data);
+        error = err;
+        done();
+      })
+    });
+  }, function(transactionError) {
+    if (transactionError || error) {
+      callback(transactionError || error);
+    } else {
+      // The transaction completed successfully.
+      callback(null, count);
+    }
+  });
+}
 
 function updateLoveInDs (ds, metasiteId, count, callback) {
   var key = ds.key(['love', metasiteId]);
