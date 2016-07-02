@@ -12,6 +12,12 @@ import http from 'http';
 var app = express();
 var server = http.createServer(app);
 require('./config/express').default(app);
+
+// Passing params to request
+app.use(function(req,res,next){
+  req.myParam = 'hello global param';
+  next();
+});
 require('./routes').default(app);
 
 // Start server
