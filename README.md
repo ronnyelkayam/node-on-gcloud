@@ -13,23 +13,34 @@ This project was generated with the [Angular Full-Stack Generator](https://githu
 - [Ruby](https://www.ruby-lang.org) and then `gem install sass`
 - [Gulp](http://gulpjs.com/) (`npm install --global gulp`)
 
+###Steps used for creating the app
+`mkdir test-app1`
+`cd test-app1`
+`yo angular-fullstack test-app1`
+`git init`
+`git add .`
+`git commit -am "first commit"`
+
 ### Developing
 
 1. Run `npm install` to install server dependencies.
 2. Run `bower install` to install front-end dependencies.
 3. Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
 
-## Build & development
+###Open in webstorm
+fix js version to 6: Languages & Frameworks | JavaScript
 
-Run `grunt build` for building and `grunt serve` for preview.
+## Build
+
+Run `grunt build` for building
 
 ##Deploy to google cloud
-
 Create a project on google cloud platform: https://console.cloud.google.com/home/dashboard
 Add datastore api to your project: https://console.cloud.google.com/apis/library
 Change the project id in [app.js](https://github.com/ronnyelkayam/node-on-gcloud/blob/ac4ad47dffd8c8d6d18b5838b4d056f166f2d5f9/server/app.js#L17)
-Run `gcloud init` and select the right account
-Run `npm run deploy`
+`npm install --save gcloud`
+`gcloud init` and select the right account
+`npm run deploy`
 
 ##Managing data in datastore
 Check your data in https://console.cloud.google.com/datastore/entities/
