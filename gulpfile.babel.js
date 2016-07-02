@@ -481,7 +481,8 @@ gulp.task('build', cb => {
             'copy:fonts',
             'copy:assets',
             'copy:server',
-            'build:client'
+            'build:client',
+            'copy:gcloud'
         ],
         cb);
 });
@@ -564,6 +565,13 @@ gulp.task('copy:extras', () => {
         `${clientPath}/.htaccess`
     ], { dot: true })
         .pipe(gulp.dest(`${paths.dist}/${clientPath}`));
+});
+
+gulp.task('copy:gcloud', () => {
+  return gulp.src([
+      `app.yaml`
+    ], { dot: true })
+    .pipe(gulp.dest(`${paths.dist}`));
 });
 
 gulp.task('copy:fonts', () => {
