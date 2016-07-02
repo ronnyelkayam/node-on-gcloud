@@ -12,7 +12,8 @@
     $onInit() {
       this.$http.get('/api/things')
         .then(response => {
-          this.awesomeThings = response.data;
+          this.awesomeThings = response.data.list;
+          this.loveCount = response.data.loveCount;
         });
     }
   }

@@ -12,10 +12,14 @@ import http from 'http';
 var app = express();
 var server = http.createServer(app);
 require('./config/express').default(app);
+var gcloud = require('gcloud');
+var ds = gcloud.datastore({
+  projectId: 'test-app1-1360'
+});
 
 // Passing params to request
 app.use(function(req,res,next){
-  req.myParam = 'hello global param';
+  req.ds = ds;
   next();
 });
 require('./routes').default(app);
